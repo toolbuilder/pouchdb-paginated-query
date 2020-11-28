@@ -1,7 +1,7 @@
 import { test } from 'zora'
 import { chainable as iterablefu } from 'iterablefu'
 import { chainable } from '@toolbuilder/await-for-it'
-import { rows, allDocs, queries } from '../src/paginator'
+import { allRows, allDocs, queries } from '../src/paginator.js'
 import PouchDB from 'pouchdb'
 import InMemoryAdapter from 'pouchdb-adapter-memory'
 import cuid from 'cuid' // each db instance requires a unique id
@@ -30,6 +30,7 @@ const newDbWithTestRecords = async (testIds) => {
   return db
 }
 
+const paginated = true
 test('proper number of records returned for each query', async assert => {
   const testCases = [
     [
@@ -41,7 +42,21 @@ test('proper number of records returned for each query', async assert => {
         limit: 5,
         include_docs: true,
         descending: false
-      }
+      },
+      paginated
+    ],
+    [
+      'options.paginate == true with limit value causes pagination',
+      testIds.slice(3, 17),
+      {
+        startkey: '03',
+        endkey: '16',
+        limit: 5,
+        include_docs: true,
+        descending: false,
+        paginate: true // if limit not provided, this makes no sense
+      },
+      paginated
     ],
     [
       'descending paginated query made expected number of queries',
@@ -52,13 +67,50 @@ test('proper number of records returned for each query', async assert => {
         limit: 5,
         include_docs: true,
         descending: true
-      }
+      },
+      paginated
+    ],
+    [
+      'paginated query returns no rows',
+      [],
+      {
+        startkey: '458',
+        endkey: '459',
+        limit: 5,
+        include_docs: true,
+        descending: false
+      },
+      paginated
+    ],
+    [
+      'non-paginated query because no limit specified',
+      testIds.slice(3, 17),
+      {
+        startkey: '03',
+        endkey: '16',
+        include_docs: true,
+        descending: false
+      },
+      !paginated
+    ],
+    [
+      'paginate option stops pagination',
+      testIds.slice(3, 8),
+      {
+        startkey: '03',
+        endkey: '16',
+        limit: 5,
+        include_docs: true,
+        descending: false,
+        paginate: false
+      },
+      !paginated
     ]
   ]
 
   // Run testCases
   await chainable(testCases)
-    .forEach(async ([description, expectedIds, query]) => {
+    .forEach(async ([description, expectedIds, query, isPaginated]) => {
       const db = await newDbWithTestRecords(testIds)
       const actualRowCounts = await chainable(allDocs(db, query))
         .map(response => response.rows.length)
@@ -66,8 +118,12 @@ test('proper number of records returned for each query', async assert => {
         .finally(async () => db.close())
         .toArray()
 
-      // Simulate query (with slice), and pagination (with chunk), to calculate expected row counts
-      const expectedRowCounts = iterablefu(expectedIds).chunk(query.limit).map(chunk => chunk.length).toArray()
+      let expectedRowCounts = [expectedIds.length] // for non-paginated queries
+      if (isPaginated) {
+        // Simulate query (with slice), and pagination (with chunk), to calculate expected row counts
+        expectedRowCounts = iterablefu(expectedIds).chunk(query.limit).map(chunk => chunk.length).toArray()
+        expectedRowCounts.push(0) // to account for last empty query of pagination
+      }
 
       assert.deepEqual(actualRowCounts, expectedRowCounts, description)
     })
@@ -157,7 +213,6 @@ test('rows', async assert => {
     ]
   ]
 
-  // TODO: can multiple records have the same key??? CouchDB says yes, options.key seems to say yes.
   // TODO: test with options.key and options.keys
 
   // Run testCases
@@ -165,7 +220,7 @@ test('rows', async assert => {
     .forEach(async ([description, expectedIds, query]) => {
       const db = await newDbWithTestRecords(testIds)
 
-      const actualIds = await chainable(rows(db, query))
+      const actualIds = await chainable(allRows(db, query))
         .map(row => row.id)
         .catch(error => console.log(`Pagination error: ${error}`))
         .finally(async () => db.close())
@@ -185,7 +240,7 @@ test('query stream', async assert => {
   ]
 
   const actualIds = await chainable(queryStream)
-    .mapWith(queries(db, rows))
+    .mapWith(queries(db, allRows))
     .map(row => row.id)
     .catch(error => console.log(`Pagination error: ${error}`))
     .finally(() => db.close())

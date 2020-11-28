@@ -1,13 +1,26 @@
 {
   "name": "@toolbuilder/pouchdb-paginated-query",
+  "description": "Performs paginated PouchDB queries, and provides each result via an async iterable.",
   "version": "0.1.0",
-  "keywords": [],
+  "keywords": ["pouchdb", "async", "iterable", "paginate", "paginated"],
   "license": "Apache-2.0",
   "main": "index.js",
-  "module": "src/paginator.js",
+  "module": "./src/paginator.js",
+  "exports": {
+    "import": "./src/paginator.js",
+    "default": "./index.js"
+  },
   "files": [
     "src"
   ],
+  "homepage": "https://github.com/toolbuilder/pouchdb-paginated-query#readme",
+  "bugs": {
+    "url": "https://github.com/toolbuilder/pouchdb-paginated-query/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/toolbuilder/pouchdb-paginated-query.git"
+  },
   "scripts": {
     "check": "run-s check:*",
     "check:packagejson": "npmPkgJsonLint .",
