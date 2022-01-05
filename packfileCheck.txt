@@ -1,0 +1,174 @@
+
+> @toolbuilder/pouchdb-paginated-query@0.1.1 check:packfile /home/kevin/repositories/npm/pouchdb-paginated-query
+> rollup -c rollup.config.test.js
+
+toolbuilder-pouchdb-paginated-query-0.1.1.tgz
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Progress: resolved 93, reused 92, downloaded 1, added 0
+Progress: resolved 183, reused 180, downloaded 1, added 0
+Packages: +183
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Packages are hard linked from the content-addressable store to the virtual store.
+  Content-addressable store is at: /home/kevin/software/pnpm-store/v3
+  Virtual store is at:             node_modules/.pnpm
+.../node_modules/leveldown install$ node-gyp-build
+.../node_modules/leveldown install: Done
+
+dependencies:
++ @toolbuilder/await-for-it 1.3.1
++ @toolbuilder/pouchdb-paginated-query 0.1.1
++ iterablefu 0.4.4
++ pouchdb 7.2.2
++ pouchdb-adapter-memory 7.2.2
++ zora 5.0.2
+
+devDependencies:
++ tap-nirvana 1.1.0
++ tape 5.4.0
+
+
+> @toolbuilder/pouchdb-paginated-query-package-test@1.0.0 test /tmp/package-test-2022-01-05T15-51-fd0wisr
+> tape 'test/*test.js' | tap-nirvana
+
+
+  proper number of records returned for each query
+    ✔  ascending paginated query made expected number of queries
+    ✔  options.paginate == true with limit value causes pagination
+    ✔  descending paginated query made expected number of queries
+    ✔  paginated query returns no rows
+    ✔  non-paginated query because no limit specified
+    ✔  paginate option stops pagination
+
+  rows
+    ✔  all expected ids returned
+    ✔  query response with no rows handled
+    ✔  non-paginated query handled
+    ✔  missing startkey handled
+    ✔  initial skip supported
+    ✔  include_docs === false supported
+    ✔  limit zero returns nothing
+    ✔  descending true works correctly
+
+  query stream
+    ✔  all output from multiple queries as expected
+
+
+  passed: 15,  failed: 0  of 15 tests  (212ms)
+Progress: resolved 183, reused 182, downloaded 1, added 183, done
+toolbuilder-pouchdb-paginated-query-0.1.1.tgz
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Progress: resolved 128, reused 126, downloaded 1, added 0
+Packages: +134
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Packages are hard linked from the content-addressable store to the virtual store.
+  Content-addressable store is at: /home/kevin/software/pnpm-store/v3
+  Virtual store is at:             node_modules/.pnpm
+.../node_modules/leveldown install$ node-gyp-build
+.../node_modules/leveldown install: Done
+
+dependencies:
++ @toolbuilder/await-for-it 1.3.1
++ @toolbuilder/pouchdb-paginated-query 0.1.1
++ iterablefu 0.4.4
++ pouchdb 7.2.2
++ pouchdb-adapter-memory 7.2.2
++ zora 5.0.2
+
+devDependencies:
++ @small-tech/esm-tape-runner 1.0.3
++ tap-nirvana 1.1.0
+
+Progress: resolved 134, reused 133, downloaded 1, added 134, done
+
+> @toolbuilder/pouchdb-paginated-query-package-test@1.0.0 test /tmp/package-test-2022-01-05T15-51-fd1wijm
+> esm-tape-runner 'test/**test.js' | tap-nirvana
+
+
+  proper number of records returned for each query
+    ✔  ascending paginated query made expected number of queries
+    ✔  options.paginate == true with limit value causes pagination
+    ✔  descending paginated query made expected number of queries
+    ✔  paginated query returns no rows
+    ✔  non-paginated query because no limit specified
+    ✔  paginate option stops pagination
+
+  rows
+    ✔  all expected ids returned
+    ✔  query response with no rows handled
+    ✔  non-paginated query handled
+    ✔  missing startkey handled
+    ✔  initial skip supported
+    ✔  include_docs === false supported
+    ✔  limit zero returns nothing
+    ✔  descending true works correctly
+
+  query stream
+    ✔  all output from multiple queries as expected
+
+
+  passed: 15,  failed: 0  of 15 tests  (259ms)
+toolbuilder-pouchdb-paginated-query-0.1.1.tgz
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Progress: resolved 68, reused 64, downloaded 1, added 0
+Progress: resolved 168, reused 165, downloaded 1, added 0
+Progress: resolved 215, reused 214, downloaded 1, added 0
+Progress: resolved 238, reused 237, downloaded 1, added 0
+Progress: resolved 269, reused 268, downloaded 1, added 0
+Packages: +290
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Packages are hard linked from the content-addressable store to the virtual store.
+  Content-addressable store is at: /home/kevin/software/pnpm-store/v3
+  Virtual store is at:             node_modules/.pnpm
+.../core-js@2.6.12/node_modules/core-js postinstall$ node -e "try{require('./postinstall')}catch(e){}"
+.../node_modules/leveldown install$ node-gyp-build
+.../core-js@2.6.12/node_modules/core-js postinstall: Thank you for using core-js ( https://github.com/zloirock/core-js ) for polyfilling JavaScript standard library!
+.../core-js@2.6.12/node_modules/core-js postinstall: The project needs your help! Please consider supporting of core-js on Open Collective or Patreon: 
+.../core-js@2.6.12/node_modules/core-js postinstall: > https://opencollective.com/core-js 
+.../core-js@2.6.12/node_modules/core-js postinstall: > https://www.patreon.com/zloirock 
+.../core-js@2.6.12/node_modules/core-js postinstall: Also, the author of core-js ( https://github.com/zloirock ) is looking for a good job -)
+.../core-js@2.6.12/node_modules/core-js postinstall: Done
+Progress: resolved 290, reused 289, downloaded 1, added 290, done
+.../node_modules/leveldown install: Done
+.../node_modules/electron postinstall$ node install.js
+.../node_modules/electron postinstall: Done
+
+dependencies:
++ @toolbuilder/await-for-it 1.3.1
++ @toolbuilder/pouchdb-paginated-query 0.1.1
++ iterablefu 0.4.4
++ pouchdb 7.2.2
++ zora 5.0.2
+
+devDependencies:
++ cash-cat 0.2.0
++ tap-nirvana 1.1.0
++ tape-run 9.0.0
+
+
+> @toolbuilder/pouchdb-paginated-query-package-test@1.0.0 test /tmp/pouchdb-paginated-query-browser-2022-01-05T15-51-hf3wipn
+> cat ./node_modules/pouchdb/dist/pouchdb.min.js ./node_modules/pouchdb/dist/pouchdb.memory.min.js all.umd.js | tape-run | tap-nirvana
+
+
+  proper number of records returned for each query
+    ✔  ascending paginated query made expected number of queries
+    ✔  options.paginate == true with limit value causes pagination
+    ✔  descending paginated query made expected number of queries
+    ✔  paginated query returns no rows
+    ✔  non-paginated query because no limit specified
+    ✔  paginate option stops pagination
+
+  rows
+    ✔  all expected ids returned
+    ✔  query response with no rows handled
+    ✔  non-paginated query handled
+    ✔  missing startkey handled
+    ✔  initial skip supported
+    ✔  include_docs === false supported
+    ✔  limit zero returns nothing
+    ✔  descending true works correctly
+
+  query stream
+    ✔  all output from multiple queries as expected
+
+
+  passed: 15,  failed: 0  of 15 tests  (2.3s)

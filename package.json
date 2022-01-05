@@ -1,23 +1,13 @@
 {
   "name": "@toolbuilder/pouchdb-paginated-query",
-  "description": "Performs paginated PouchDB queries, and provides each result via an async iterable.",
   "version": "0.1.1",
+  "description": "Performs paginated PouchDB queries, and provides each result via an async iterable.",
   "keywords": [
     "pouchdb",
     "async",
     "iterable",
     "paginate",
     "paginated"
-  ],
-  "license": "Apache-2.0",
-  "main": "index.js",
-  "module": "./src/paginator.js",
-  "exports": {
-    "import": "./src/paginator.js",
-    "default": "./index.js"
-  },
-  "files": [
-    "src"
   ],
   "homepage": "https://github.com/toolbuilder/pouchdb-paginated-query#readme",
   "bugs": {
@@ -27,40 +17,53 @@
     "type": "git",
     "url": "https://github.com/toolbuilder/pouchdb-paginated-query.git"
   },
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "require": "./cjs/paginator.js",
+      "default": "./src/paginator.js"
+    }
+  },
+  "main": "cjs/paginator.js",
+  "module": "src/paginator.js",
+  "files": [
+    "cjs",
+    "src"
+  ],
   "scripts": {
-    "check": "run-s check:*",
+    "build": "rollup -c rollup.config.cjs.js",
+    "check": "run-s build check:*",
     "check:packagejson": "npmPkgJsonLint .",
-    "check:packfile": "rollup --config node:@toolbuilder/rollup-config-pkgtest",
+    "check:packfile": "rollup -c rollup.config.test.js",
     "check:src": "eslint src test",
     "check:test": "run-s test",
     "check:uncommitted": "uncommitted",
     "prerelease": "run-s check",
     "release": "standard-version",
-    "test": "tape -r esm \"test/*test.js\""
+    "test": "esm-tape-runner \"test/**/*test.js\""
   },
   "eslintConfig": {
     "extends": "@toolbuilder/eslint-config"
   },
-  "dependencies": {
-    "esm": "^3.2.25"
-  },
   "devDependencies": {
-    "@toolbuilder/await-for-it": "^1.0.0",
+    "@rollup/plugin-alias": "^3.1.9",
+    "@rollup/plugin-multi-entry": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.1.3",
+    "@small-tech/esm-tape-runner": "^1.0.3",
+    "@toolbuilder/await-for-it": "^1.3.1",
     "@toolbuilder/eslint-config": "^0.1.4",
     "@toolbuilder/package-json-lint-config": "^0.1.0",
-    "@toolbuilder/rollup-config-pkgtest": "^0.1.2",
-    "cuid": "^2.1.8",
-    "eslint": "^7.12.1",
-    "iterablefu": "^0.4.2",
-    "npm-package-json-lint": "^5.1.0",
+    "@toolbuilder/rollup-plugin-test-tools": "^0.1.2",
+    "eslint": "^8.6.0",
+    "npm-package-json-lint": "^5.4.2",
     "npm-run-all": "^4.1.5",
     "pouchdb": "^7.2.2",
     "pouchdb-adapter-memory": "^7.2.2",
-    "rollup": "^2.33.1",
-    "standard-version": "^9.0.0",
-    "tape": "^5.0.1",
+    "rollup": "^2.63.0",
+    "standard-version": "^9.3.2",
     "uncommitted": "^1.0.0",
-    "zora": "^4.0.1"
+    "zora": "^5.0.2"
   },
   "npmpackagejsonlint": {
     "extends": "@toolbuilder/package-json-lint-config"

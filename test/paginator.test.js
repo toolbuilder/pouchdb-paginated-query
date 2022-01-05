@@ -1,22 +1,24 @@
 import { test } from 'zora'
-import { chainable as iterablefu } from 'iterablefu'
 import { chainable } from '@toolbuilder/await-for-it'
 import { allRows, allDocs, queries } from '../src/paginator.js'
-import PouchDB from 'pouchdb'
-import InMemoryAdapter from 'pouchdb-adapter-memory'
-import cuid from 'cuid' // each db instance requires a unique id
+import PouchDB from './database.node.js'
 
-PouchDB.plugin(InMemoryAdapter)
+const uniqueIdGenerator = () => {
+  let number = 0
+  return () => { number++; return number.toString().padStart(2, '0') }
+}
+
+const uniqueId = uniqueIdGenerator()
 
 // Create some ids for the test records, and for testing.
-const testIds = iterablefu
+const createTestIds = async () => chainable
   .range(20)
   .map(id => id.toString().padStart(2, '0'))
   .toArray()
 
 // Create, and insert test records into the DB.
 const insertTestRecords = async (db, testIds) => {
-  const records = iterablefu(testIds)
+  const records = await chainable(testIds)
     // zero pad id so JS string ordering provides expected results
     .map(id => id.toString().padStart(2, '0'))
     .map(_id => ({ _id, text: `this is ${_id}` }))
@@ -25,13 +27,15 @@ const insertTestRecords = async (db, testIds) => {
 }
 
 const newDbWithTestRecords = async (testIds) => {
-  const db = new PouchDB(`db-${cuid()}`, { adapter: 'memory' })
+  const dbId = `db-${uniqueId()}`
+  const db = new PouchDB(dbId, { adapter: 'memory' })
   await insertTestRecords(db, testIds)
   return db
 }
 
 const paginated = true
 test('proper number of records returned for each query', async assert => {
+  const testIds = await createTestIds()
   const testCases = [
     [
       'ascending paginated query made expected number of queries',
@@ -121,7 +125,7 @@ test('proper number of records returned for each query', async assert => {
       let expectedRowCounts = [expectedIds.length] // for non-paginated queries
       if (isPaginated) {
         // Simulate query (with slice), and pagination (with chunk), to calculate expected row counts
-        expectedRowCounts = iterablefu(expectedIds).chunk(query.limit).map(chunk => chunk.length).toArray()
+        expectedRowCounts = await chainable(expectedIds).chunk(query.limit, 1).map(chunk => chunk.length).toArray()
         expectedRowCounts.push(0) // to account for last empty query of pagination
       }
 
@@ -130,6 +134,7 @@ test('proper number of records returned for each query', async assert => {
 })
 
 test('rows', async assert => {
+  const testIds = await createTestIds()
   const testCases = [
     [
       'all expected ids returned',
@@ -231,6 +236,7 @@ test('rows', async assert => {
 })
 
 test('query stream', async assert => {
+  const testIds = await createTestIds()
   const db = await newDbWithTestRecords(testIds)
 
   const queryStream = [ // three queries
@@ -247,7 +253,7 @@ test('query stream', async assert => {
     .toArray()
 
   // Simulate queries to get expected results
-  const expectedIds = iterablefu(queryStream)
+  const expectedIds = await chainable(queryStream)
     .map(query => [Number(query.startkey), Number(query.endkey) + 1])
     .map(range => testIds.slice(...range))
     .flatten()
