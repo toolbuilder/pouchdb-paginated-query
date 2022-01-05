@@ -1,6 +1,6 @@
 {
   "name": "@toolbuilder/pouchdb-paginated-query",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Performs paginated PouchDB queries, and provides each result via an async iterable.",
   "keywords": [
     "pouchdb",

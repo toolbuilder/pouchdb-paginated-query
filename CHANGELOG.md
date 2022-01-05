@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](https://github.com/toolbuilder/pouchdb-paginated-query/compare/v0.1.1...v0.1.2) (2022-01-05)
+
+
+### Features
+
+* dual package - ES module with CommonJS support and Electron tests ([e4cf18a](https://github.com/toolbuilder/pouchdb-paginated-query/commit/e4cf18a0b7e31e37538b589d5ae9bb7b6364d212))
+
 ### 0.1.1 (2020-11-28)
 
 
