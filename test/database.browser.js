@@ -1,3 +1,3 @@
 import PouchDB from 'pouchdb'
 export const count = 1
-export default PouchDB
+export const Database = PouchDB

@@ -1,7 +1,7 @@
 import { test } from 'zora'
 import { chainable } from '@toolbuilder/await-for-it'
 import { allRows, allDocs, queries } from '../src/paginator.js'
-import PouchDB from './database.node.js'
+import { Database } from './database.node.js'
 
 const uniqueIdGenerator = () => {
   let number = 0
@@ -28,7 +28,7 @@ const insertTestRecords = async (db, testIds) => {
 
 const newDbWithTestRecords = async (testIds) => {
   const dbId = `db-${uniqueId()}`
-  const db = new PouchDB(dbId, { adapter: 'memory' })
+  const db = new Database(dbId, { adapter: 'memory' })
   await insertTestRecords(db, testIds)
   return db
 }
